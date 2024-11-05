@@ -1,28 +1,33 @@
-# Makefile in project root
+# Compiler flags
 CPPFLAGS = -Wall -g -std=c++11
+
+# Directories
 SRCDIR = CPP
 BUILDDIR = build
 
 # List of all source files
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
+# Object files generated from source files
 OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SOURCES))
+# Executables generated from source files (only if they have a main function)
+EXECUTABLES = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%, $(filter %main.cpp,$(SOURCES)))
 
-# Create an executable for each source file with a main function
-EXECUTABLES = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%, $(SOURCES))
-
-# Target to build all
+# Target to build all executables
 all: $(EXECUTABLES)
 
-# Link each executable
+# Rule to link each executable
 $(BUILDDIR)/%: $(BUILDDIR)/%.o
-	mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)  # Ensure the build directory exists
 	g++ $(CPPFLAGS) -o $@ $<
 
-# Compile source files
+# Rule to compile source files into object files
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
-	mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)  # Ensure the build directory exists
 	g++ $(CPPFLAGS) -c $< -o $@
 
-# Clean build directory
+# Clean target to remove all generated files
 clean:
 	rm -rf $(BUILDDIR)/*
+
+# Phony targets
+.PHONY: all clean

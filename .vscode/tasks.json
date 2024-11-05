@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build Paradigm",
+            "label": "build current C++ file",
             "type": "shell",
             "command": "clang++",
             "args": [
@@ -17,9 +17,10 @@
                 "-Wnull-dereference",
                 "-g3",
                 "-O0",
-                "/Users/creeperhead/COMYR2/COM2040/CPP/Paradigm.cpp",
+                "-c",
+                "${file}",
                 "-o",
-                "./build/Debug/outDebug"
+                "./build/Debug/${fileBasenameNoExtension}.o"
             ],
             "group": {
                 "kind": "build",
@@ -27,12 +28,40 @@
             },
             "problemMatcher": ["$gcc"],
             "options": {
-                "cwd": "/Users/creeperhead/COMYR2/COM2040/CPP" // Ensure this points to your source directory
+                "cwd": "${workspaceFolder}/CPP"
             }
         },
         {
-            "label": "run Paradigm",
+            "label": "link and run current C++ file",
             "type": "shell",
+            "dependsOn": "build current C++ file",
+            "command": "clang++",
+            "args": [
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wcast-align",
+                "-Wconversion",
+                "-Wsign-conversion",
+                "-Wnull-dereference",
+                "-g3",
+                "-O0",
+                "./build/Debug/${fileBasenameNoExtension}.o",
+                "-o",
+                "./build/Debug/outDebug"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/CPP"
+            }
+        },
+        {
+            "label": "run current executable",
+            "type": "shell",
+            "dependsOn": "link and run current C++ file",
             "command": "./build/Debug/outDebug",
             "group": {
                 "kind": "test",
@@ -40,7 +69,13 @@
             },
             "problemMatcher": [],
             "options": {
-                "cwd": "/Users/creeperhead/COMYR2/COM2040/CPP" // Ensure this points to your source directory
+                "cwd": "${workspaceFolder}/CPP"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
             }
         }
     ]
