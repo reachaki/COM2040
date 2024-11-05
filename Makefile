@@ -25,4 +25,4 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 
 # Clean build directory
 clean:
-	rm -rf $(BUILDDIR)
+	rm -rf $(BUILDDIR)/*
