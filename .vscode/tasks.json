@@ -17,6 +17,7 @@
                 "-Wnull-dereference",
                 "-g3",
                 "-O0",
+                "-std=c++11",  // Set C++ standard to C++11
                 "-c",
                 "${file}",
                 "-o",
@@ -48,6 +49,7 @@
                 "-Wnull-dereference",
                 "-g3",
                 "-O0",
+                "-std=c++11",  // Set C++ standard to C++11
                 "./build/Debug/${fileBasenameNoExtension}.o",
                 "-o",
                 "./build/Debug/outDebug"
